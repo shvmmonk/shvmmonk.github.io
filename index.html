@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shivam Nath Goswami | Backend Developer & Java Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Fira+Code:wght@500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --dirt:#7a4f2e;
+  --dirt2:#5a3520;
+  --grass:#5d8a3c;
+  --grass2:#4a7a2e;
+  --stone:#7a7a7a;
+  --stone2:#5a5a5a;
+  --wood:#7a5c2e;
+  --wood2:#5c4422;
+  --coal:#2a2a2a;
+  --diamond:#4dd9e8;
+  --diamond2:#2ab8cc;
+  --gold:#f5c400;
+  --gold2:#c49b00;
+  --iron:#c8b89a;
+  --night:#0a0e1a;
+  --torch:#ff9900;
+  --redstone:#cc2200;
+  --emerald:#00c85a;
+  --purple:#cc88ff;
+  --text:#fff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--text);font-family:'Press Start 2P',monospace;font-size:10px;image-rendering:pixelated;overflow-x:hidden;}
+.pixel-border{box-shadow:inset -4px -4px 0 rgba(0,0,0,0.4),inset 4px 4px 0 rgba(255,255,255,0.15),0 4px 0 rgba(0,0,0,0.6);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--dirt2);border-bottom:4px solid var(--coal);padding:10px 2rem;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{font-family:'Press Start 2P',monospace;font-size:11px;color:var(--gold);text-shadow:2px 2px 0 #000;animation:logoGlow 2s infinite alternate;}
+@keyframes logoGlow{0%{text-shadow:2px 2px 0 #000, 0 0 5px var(--gold);}100%{text-shadow:2px 2px 0 #000, 0 0 15px var(--gold);}}
+
+.nav-links{display:flex;gap:1rem}
+.nav-links a{font-family:'Press Start 2P',monospace;font-size:7px;color:#ccc;text-decoration:none;padding:6px 10px;background:var(--stone2);border-top:2px solid #aaa;border-left:2px solid #aaa;border-right:2px solid #333;border-bottom:2px solid #333;transition:all 0.1s;}
+.nav-links a:hover{background:var(--grass);color:#fff;border-top:2px solid #7fc;border-left:2px solid #7fc;transform:translateY(1px);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:6rem 2rem 3rem;overflow:hidden;}
+.moon{position:absolute;top:80px;right:12%;width:48px;height:48px;background:#fffde0;box-shadow:inset -8px -4px 0 #e8d800,4px 4px 0 rgba(0,0,0,0.3);z-index:1;animation:moonGlow 3s infinite alternate;}
+@keyframes moonGlow{0%{box-shadow:inset -8px -4px 0 #e8d800,4px 4px 0 rgba(0,0,0,0.3),0 0 10px #fffde0;}100%{box-shadow:inset -8px -4px 0 #e8d800,4px 4px 0 rgba(0,0,0,0.3),0 0 25px #fffde0;}}
+
+.ground{position:absolute;bottom:0;left:0;right:0;height:60px;background:repeating-linear-gradient(90deg,var(--grass) 0px,var(--grass) 63px,var(--grass2) 63px,var(--grass2) 64px);border-top:4px solid rgba(255,255,255,0.1);z-index:1;}
+.ground::before{content:'';position:absolute;top:16px;left:0;right:0;bottom:0;background:repeating-linear-gradient(90deg,var(--dirt) 0px,var(--dirt) 63px,var(--dirt2) 63px,var(--dirt2) 64px);}
+.hero-box{position:relative;z-index:2;background:var(--dirt);border-top:4px solid #a06030;border-left:4px solid #a06030;border-right:4px solid #3a1a0a;border-bottom:4px solid #3a1a0a;padding:2.5rem 3rem;text-align:center;max-width:700px;width:100%;}
+.hero-name{font-family:'Press Start 2P',monospace;font-size:clamp(12px,2.5vw,18px);color:var(--gold);text-shadow:3px 3px 0 #000,-1px -1px 0 #000;margin-bottom:1rem;line-height:1.6;}
+.hero-role{font-family:'VT323',monospace;font-size:clamp(22px,3.5vw,30px);color:var(--diamond);text-shadow:2px 2px 0 #000;margin-bottom:1.5rem;letter-spacing:2px;}
+.health-bar{display:flex;flex-direction:column;align-items:center;gap:6px;margin:1.2rem 0}
+.health-label{font-size:7px;color:#aaa;letter-spacing:2px}
+.hearts{display:flex;gap:4px;justify-content:center}
+.heart{font-size:14px;filter:drop-shadow(1px 1px 0 #000);display:inline-block;animation:heartBeat 1.5s infinite ease-in-out;}
+@keyframes heartBeat{0%, 100%{transform:scale(1);}50%{transform:scale(1.2);}}
+
+.xp-bar-wrap{width:260px;height:10px;background:#333;border:2px solid #555;margin:0 auto}
+.xp-bar{height:100%;width:85%;background:var(--emerald);animation:xpPulse 2s infinite alternate}
+@keyframes xpPulse{0%{opacity:0.8}100%{opacity:1}}
+.xp-label{font-size:6px;color:var(--emerald);margin-top:4px}
+.hero-btns{display:flex;gap:1rem;justify-content:center;margin-top:1.8rem;flex-wrap:wrap}
+.mc-btn{font-family:'Press Start 2P',monospace;font-size:8px;padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.1s;border:none;}
+.mc-btn:active{transform:translateY(2px)}
+.btn-grass{background:var(--grass);color:#fff;border-top:3px solid #8ecf5a;border-left:3px solid #8ecf5a;border-right:3px solid #2a5a10;border-bottom:3px solid #2a5a10;text-shadow:1px 1px 0 #000;}
+.btn-grass:hover{background:var(--grass2);transform:scale(1.05);}
+.btn-stone{background:var(--stone);color:#fff;border-top:3px solid #aaa;border-left:3px solid #aaa;border-right:3px solid #333;border-bottom:3px solid #333;text-shadow:1px 1px 0 #000;}
+.btn-stone:hover{background:var(--stone2);transform:scale(1.05);}
+
+/* FLICKERING TORCHES */
+.torch{position:absolute;display:flex;flex-direction:column;align-items:center;z-index:3}
+.torch-flame{width:8px;height:10px;background:var(--torch);box-shadow:0 0 8px 4px rgba(255,153,0,0.6),0 0 16px 8px rgba(255,100,0,0.3);animation:flicker 0.3s infinite alternate;}
+@keyframes flicker{0%{transform:scaleX(1);opacity:1}100%{transform:scaleX(0.8) scaleY(1.1);opacity:0.85}}
+.torch-stick{width:4px;height:14px;background:var(--wood)}
+.torch-base{width:10px;height:4px;background:var(--wood2)}
+.torch-l{bottom:64px;left:calc(50% - 370px)}
+.torch-r{bottom:64px;right:calc(50% - 370px)}
+
+/* CREEPER HUD COMPANION WIDGET */
+#creeper-wrap{position:fixed;top:68px;right:14px;z-index:190;display:flex;flex-direction:column;align-items:center;gap:6px;background:rgba(10,14,26,0.85);padding:8px;border:2px solid var(--emerald);border-radius:6px;box-shadow:0 0 10px var(--emerald);}
+#creeper-face{width:36px;height:36px;background:var(--emerald);position:relative;cursor:pointer;}
+#creeper-face::before{content:'';position:absolute;top:8px;left:6px;width:8px;height:8px;background:#000;box-shadow:16px 0 0 #000;}
+#creeper-face::after{content:'';position:absolute;top:18px;left:12px;width:12px;height:12px;background:#000;}
+#creeper-label{font-family:'Press Start 2P',monospace;font-size:6px;color:var(--emerald);text-align:center;}
+
+/* SECTIONS */
+section{padding:4rem 1.5rem;max-width:960px;margin:0 auto}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
+.section-title{font-family:'Press Start 2P',monospace;font-size:clamp(10px,1.8vw,14px);color:var(--gold);text-shadow:2px 2px 0 #000;line-height:1.6;}
+.divider{height:4px;background:repeating-linear-gradient(90deg,var(--stone) 0,var(--stone) 15px,var(--stone2) 15px,var(--stone2) 16px);margin-bottom:2rem;border-top:2px solid #aaa;border-bottom:2px solid #333;}
+
+/* ABOUT */
+.about-block{background:var(--stone2);border-top:4px solid var(--stone);border-left:4px solid var(--stone);border-right:4px solid #1a1a1a;border-bottom:4px solid #1a1a1a;padding:2rem;}
+.about-text{font-family:'VT323',monospace;font-size:22px;line-height:1.7;color:#ddd;}
+.about-text span{color:var(--gold)}
+.about-text em{color:var(--diamond);font-style:normal}
+
+/* SKILLS HOTBAR */
+.hotbar{background:#1a1a1a;border:3px solid #555;padding:8px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;box-shadow:inset 0 0 0 2px #333;}
+.hotbar-slot{width:60px;height:60px;background:#222;border-top:2px solid #555;border-left:2px solid #555;border-right:2px solid #111;border-bottom:2px solid #111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;position:relative;transition:all 0.15s;}
+.hotbar-slot:hover{background:#2a2a2a;border-color:var(--gold);transform:scale(1.12);}
+.slot-icon{font-size:22px}
+.slot-label{font-family:'VT323',monospace;font-size:12px;color:#aaa;text-align:center;}
+.slot-num{position:absolute;bottom:2px;right:3px;font-family:'Press Start 2P',monospace;font-size:6px;color:var(--gold)}
+
+.skills-enchant{background:var(--coal);border:2px solid #333;padding:1.5rem}
+.enchant-title{font-family:'Press Start 2P',monospace;font-size:9px;color:var(--diamond);margin-bottom:14px;text-shadow:0 0 8px var(--diamond)}
+.skill-list{display:flex;flex-direction:column;gap:12px}
+.skill-row{display:flex;align-items:center;gap:10px}
+.skill-name-col{font-family:'VT323',monospace;font-size:19px;color:#ccc;min-width:140px}
+.skill-bar-bg{flex:1;height:14px;background:#222;border-top:2px solid #111;border-left:2px solid #111;border-right:2px solid #444;border-bottom:2px solid #444;overflow:hidden;}
+.skill-bar-fill{height:100%;background:var(--emerald);animation:barPulse 2s infinite alternate;}
+@keyframes barPulse{0%{box-shadow:0 0 4px var(--emerald);}100%{box-shadow:0 0 12px var(--emerald);}}
+
+/* PROJECTS CHESTS */
+.chest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.chest{background:var(--wood);border-top:4px solid #b08040;border-left:4px solid #b08040;border-right:4px solid #3a2210;border-bottom:4px solid #3a2210;display:flex;flex-direction:column;transition:transform 0.2s ease, box-shadow 0.2s ease;}
+.chest:hover{transform:translateY(-8px);box-shadow:0 10px 20px rgba(0,0,0,0.6);}
+.chest-top{background:var(--wood2);border-bottom:4px solid #3a2210;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;}
+.chest-title{font-family:'Press Start 2P',monospace;font-size:8px;color:var(--gold);text-shadow:1px 1px 0 #000;flex:1}
+.chest-rarity{font-family:'VT323',monospace;font-size:14px;padding:2px 8px}
+.rarity-rare{color:var(--diamond)}
+.rarity-epic{color:var(--purple)}
+.rarity-legend{color:var(--gold)}
+.chest-body{padding:14px;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+.chest-desc{font-family:'VT323',monospace;font-size:18px;color:#ccc;line-height:1.6;margin-bottom:12px}
+.tag{font-family:'VT323',monospace;font-size:14px;padding:2px 8px;border:1px solid;display:inline-block;margin-right:4px;margin-top:4px;}
+.tag-diamond{color:var(--diamond);border-color:var(--diamond2);background:rgba(77,217,232,0.08)}
+.tag-gold{color:var(--gold);border-color:var(--gold2);background:rgba(245,196,0,0.08)}
+
+/* CONTACT CRAFTING */
+.crafting-table{background:#2a1a0a;border-top:4px solid #5a3a1a;border-left:4px solid #5a3a1a;border-right:4px solid #0a0800;border-bottom:4px solid #0a0800;padding:1.5rem;max-width:600px;margin:0 auto;}
+.craft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:1.2rem}
+.craft-slot{background:#1a0e04;border-top:2px solid #3a2810;border-left:2px solid #3a2810;border-right:2px solid #0a0400;border-bottom:2px solid #0a0400;padding:14px 12px;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);transition:all 0.15s;}
+.craft-slot:hover{background:#2a1a08;transform:scale(1.03);}
+.craft-icon{font-size:22px;flex-shrink:0}
+.craft-label{font-family:'VT323',monospace;font-size:15px;color:#888}
+.craft-val{font-family:'VT323',monospace;font-size:18px;color:var(--diamond)}
+
+/* CHATBOT WIDGET & MINECRAFT AVATAR STYLING */
+#chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  touch-action: none;
+}
+
+.ai-cloud-speech {
+  position: relative;
+  background: #ffffff;
+  color: #0b1326;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  animation: cloudFloat 2.5s infinite ease-in-out;
+  cursor: grab;
+  user-select: none;
+}
+
+.ai-cloud-speech::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 10px solid #000;
+}
+
+.ai-cloud-speech::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  right: 22px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid #fff;
+  z-index: 1;
+}
+
+@keyframes cloudFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Minecraft Player Head Avatar Button */
+#chatbot-toggle-btn {
+  width: 58px;
+  height: 58px;
+  background: #c68b59; /* Steve Skin */
+  border: 3px solid #000;
+  box-shadow: 0 0 15px var(--diamond), 4px 4px 0 rgba(0,0,0,0.6);
+  position: relative;
+  cursor: grab;
+  user-select: none;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+#chatbot-toggle-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px var(--diamond), 4px 4px 0 rgba(0,0,0,0.8);
+}
+
+#chatbot-toggle-btn:active {
+  cursor: grabbing;
+}
+
+.mc-head-hair {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 32%;
+  background: #3a2212;
+  border-bottom: 3px solid #2a160a;
+}
+
+.mc-head-face {
+  position: absolute;
+  top: 32%; left: 0; width: 100%; height: 68%;
+  background: #c68b59;
+}
+
+.mc-eye {
+  position: absolute;
+  top: 18%;
+  width: 28%;
+  height: 24%;
+  background: #ffffff;
+  border: 1px solid #1a1a1a;
+}
+.mc-eye-left { left: 12%; }
+.mc-eye-right { right: 12%; }
+
+.mc-pupil {
+  width: 50%;
+  height: 100%;
+  background: #2b52a1; /* Minecraft Steve eyes */
+}
+
+.mc-nose {
+  position: absolute;
+  top: 44%; left: 38%; width: 24%; height: 16%;
+  background: #aa6e42;
+}
+
+.mc-mouth {
+  position: absolute;
+  bottom: 15%; left: 26%; width: 48%; height: 18%;
+  background: #4a2c11;
+  border-top: 2px solid #331c0a;
+}
+
+.mc-helmet-glow {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(77, 217, 232, 0.4);
+  pointer-events: none;
+}
+
+#chatbot-modal {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  z-index: 501;
+  width: 350px;
+  max-width: calc(100vw - 30px);
+  height: 460px;
+  background: #111625;
+  border: 4px solid var(--diamond);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px var(--diamond);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  display: none;
+}
+
+#chatbot-modal.active {
+  display: flex;
+}
+
+.chat-header {
+  background: #1a2238;
+  padding: 12px;
+  border-bottom: 3px solid var(--coal);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--gold);
+}
+
+.chat-body {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+}
+
+.chat-msg {
+  padding: 8px 12px;
+  border-radius: 6px;
+  max-width: 85%;
+  line-height: 1.4;
+}
+
+.msg-bot {
+  background: #1e2942;
+  border: 1px solid var(--diamond);
+  color: #fff;
+  align-self: flex-start;
+}
+
+.msg-user {
+  background: var(--grass);
+  color: #fff;
+  align-self: flex-end;
+}
+
+.chat-quick-questions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px;
+  background: #0d1220;
+  border-top: 1px solid #223;
+}
+
+.quick-btn {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  padding: 3px 8px;
+  background: #1e2942;
+  border: 1px solid var(--diamond);
+  color: var(--diamond);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.quick-btn:hover {
+  background: var(--diamond);
+  color: #000;
+}
+
+.chat-input-row {
+  display: flex;
+  border-top: 2px solid var(--coal);
+  background: #090d18;
+}
+
+.chat-input-row input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+}
+
+.chat-input-row button {
+  background: var(--gold);
+  border: none;
+  padding: 0 16px;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #000;
+}
+
+/* BACKGROUND ANIMATION ELEMENTS */
+.star-bg{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 1.5s infinite alternate;}
+@keyframes twinkle{0%{opacity:0.2}100%{opacity:1}}
+
+.shoot-star{position:fixed;width:4px;height:4px;background:#fff;z-index:0;pointer-events:none;box-shadow:0 0 8px 3px rgba(255,255,255,0.9);animation:shootAnim 2.5s linear infinite;}
+@keyframes shootAnim{
+  0%{transform:translate(0, 0) scale(1); opacity:1;}
+  100%{transform:translate(-300px, 300px) scale(0); opacity:0;}
+}
+
+.lightning{position:fixed;inset:0;background:rgba(255,255,255,0.06);z-index:0;pointer-events:none;opacity:0;animation:lightningFlash 8s infinite;}
+@keyframes lightningFlash{0%, 94%, 100%{opacity:0;}95%{opacity:1;}97%{opacity:0.3;}98%{opacity:0.8;}}
+
+.matrix-col{position:fixed;top:0;z-index:0;pointer-events:none;font-family:'VT323',monospace;font-size:16px;color:var(--emerald);opacity:0.12;white-space:nowrap;writing-mode:vertical-rl;animation:matrixFall 10s linear infinite;}
+@keyframes matrixFall{0%{transform:translateY(-100%);}100%{transform:translateY(110vh);}}
+
+.firefly{position:fixed;pointer-events:none;z-index:1;width:4px;height:4px;background:var(--emerald);border-radius:50%;box-shadow:0 0 6px var(--emerald);animation:floatFly 12s linear infinite;}
+@keyframes floatFly{
+  0%{transform:translate(0, 0); opacity:0;}
+  20%{opacity:1;}
+  80%{opacity:0.8;}
+  100%{transform:translate(100vw, -80vh); opacity:0;}
+}
+
+.float-block{position:fixed;pointer-events:none;z-index:0;width:16px;height:16px;background:rgba(77,217,232,0.15);border:1px solid var(--diamond2);animation:blockDrift 15s linear infinite;}
+@keyframes blockDrift{
+  0%{transform:translateY(105vh) rotate(0deg); opacity:0;}
+  20%{opacity:0.6;}
+  80%{opacity:0.6;}
+  100%{transform:translateY(-10vh) rotate(360deg); opacity:0;}
+}
+
+.particle{position:fixed;pointer-events:none;z-index:9999;width:6px;height:6px;background:var(--gold);animation:particleBurst 0.6s ease-out forwards;}
+@keyframes particleBurst{
+  0%{transform:translate(0,0) scale(1); opacity:1;}
+  100%{transform:translate(var(--dx), var(--dy)) scale(0); opacity:0;}
+}
+
+footer{background:var(--dirt2);border-top:4px solid var(--coal);padding:1.5rem;text-align:center;}
+.footer-text{font-family:'VT323',monospace;font-size:18px;color:#888}
+.footer-text span{color:var(--emerald)}
+</style>
+</head>
+<body onclick="spawnParticleBurst(event)">
+
+<!-- CREEPER HUD COMPANION WIDGET -->
+<div id="creeper-wrap">
+  <div id="creeper-face" title="Minecraft Companion"></div>
+  <div id="creeper-label">HOME</div>
+</div>
+
+<!-- DRAGGABLE MINECRAFT AI CHATBOT WIDGET -->
+<div id="chatbot-container">
+  <div class="ai-cloud-speech">☁️ I'm Shivam's Personal AI</div>
+  
+  <div id="chatbot-toggle-btn" title="Hold & Drag me anywhere! Click to open AI Chat">
+    <div class="mc-head-hair"></div>
+    <div class="mc-head-face">
+      <div class="mc-eye mc-eye-left"><div class="mc-pupil"></div></div>
+      <div class="mc-eye mc-eye-right"><div class="mc-pupil"></div></div>
+      <div class="mc-nose"></div>
+      <div class="mc-mouth"></div>
+    </div>
+    <div class="mc-helmet-glow"></div>
+  </div>
+
+  <div id="chatbot-modal">
+    <div class="chat-header">
+      <span>🤖 SNG-AI ASSISTANT</span>
+      <span style="cursor:pointer;font-size:12px;color:var(--redstone);" onclick="toggleChatbot()">[X]</span>
+    </div>
+    <div class="chat-body" id="chat-body">
+      <div class="chat-msg msg-bot">
+        Hello! I am Shivam's AI Assistant. Ask me anything about his skills, experience, projects, or achievements!
+      </div>
+    </div>
+    <div class="chat-quick-questions">
+      <button class="quick-btn" onclick="askQuick('skills')">Skills</button>
+      <button class="quick-btn" onclick="askQuick('flowhipz')">Flowhipz</button>
+      <button class="quick-btn" onclick="askQuick('projects')">Projects</button>
+      <button class="quick-btn" onclick="askQuick('sih')">SIH Win</button>
+      <button class="quick-btn" onclick="askQuick('contact')">Contact</button>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="Ask about Shivam..." onkeydown="if(event.key==='Enter') sendUserMsg()" />
+      <button onclick="sendUserMsg()">SEND</button>
+    </div>
+  </div>
+</div>
+
+<!-- Animated Background Elements -->
+<div class="star-bg" id="stars-container"></div>
+<div class="lightning"></div>
+
+<div class="shoot-star" style="top:10%;right:20%;animation-delay:0s;"></div>
+<div class="shoot-star" style="top:25%;right:50%;animation-delay:4s;"></div>
+
+<div class="matrix-col" style="left:5%;animation-duration:8s;">JAVA_SPRING_BOOT_RAG_REST_API</div>
+<div class="matrix-col" style="left:30%;animation-duration:12s;animation-delay:2s;">SOCKET_NETWORKING_PACKET_LOSS</div>
+<div class="matrix-col" style="left:70%;animation-duration:10s;animation-delay:4s;">LEETCODE_200_DSA_SOLVED</div>
+
+<div class="firefly" style="top:80%;left:5%;animation-delay:0s;"></div>
+<div class="firefly" style="top:70%;left:30%;animation-delay:4s;"></div>
+<div class="firefly" style="top:85%;left:60%;animation-delay:8s;"></div>
+
+<div class="float-block" style="left:10%;animation-duration:14s;"></div>
+<div class="float-block" style="left:40%;animation-duration:18s;animation-delay:3s;"></div>
+<div class="float-block" style="left:75%;animation-duration:16s;animation-delay:6s;"></div>
+
+<nav>
+  <div class="nav-logo">SNG.exe</div>
+  <div class="nav-links">
+    <a href="#about">[ ABOUT ]</a>
+    <a href="#experience">[ QUEST ]</a>
+    <a href="#achievements">[ WINS ]</a>
+    <a href="#skills">[ SKILLS ]</a>
+    <a href="#projects">[ CHESTS ]</a>
+    <a href="#contact">[ CRAFT ]</a>
+  </div>
+</nav>
+
+<div class="hero" id="home">
+  <div class="torch torch-l"><div class="torch-flame"></div><div class="torch-stick"></div><div class="torch-base"></div></div>
+  <div class="torch torch-r"><div class="torch-flame"></div><div class="torch-stick"></div><div class="torch-base"></div></div>
+  <div class="moon"></div>
+  <div class="hero-box pixel-border">
+    <div class="hero-name">SHIVAM NATH GOSWAMI</div>
+    <div class="hero-role">⚔ Backend Developer & Java Specialist ⚔</div>
+    <div class="health-bar">
+      <div class="health-label">HEALTH</div>
+      <div class="hearts">
+        <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
+        <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
+        <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
+      </div>
+      <div class="xp-bar-wrap"><div class="xp-bar"></div></div>
+      <div class="xp-label">XP: 8,500 / 10,000 — LEVEL 21</div>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="mc-btn btn-grass">▶ VIEW PROJECTS</a>
+      <a href="#contact" class="mc-btn btn-stone">✉ CONTACT ME</a>
+    </div>
+  </div>
+  <div class="ground"></div>
+</div>
+
+<!-- ABOUT SECTION -->
+<section id="about">
+  <div class="section-header">
+    <div class="section-title">// PLAYER PROFILE</div>
+  </div>
+  <div class="divider"></div>
+  <div class="about-block">
+    <div class="about-text">
+      I'm a <span>Backend Developer & Systems Engineer</span> spawned into the world of code with a passion for <span>Java & Spring Boot</span>. I build <em>microservices, REST APIs, and RAG knowledge bases</em> while grinding <em>DSA & LeetCode (200+ solved)</em>.<br><br>
+      Currently serving as a <span>Freelance Backend Developer</span> for <em>Flowhipz (flowhipz.com)</em>.<br><br>
+      Difficulty: <span>HARD</span> 🗡️ &nbsp;|&nbsp; Mode: <em>Survival</em> &nbsp;|&nbsp; Biome: <span>Ghaziabad, India</span> &nbsp;|&nbsp; Guild: <em>SRM IST (CGPA 8.9)</em>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN QUEST EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <div class="section-title">// ACTIVE MAIN QUEST (EXPERIENCE)</div>
+  </div>
+  <div class="divider"></div>
+  <div class="about-block" style="background:#1a0e04;border-color:var(--gold);">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
+      <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold)">FLOWHIPZ (flowhipz.com)</div>
+      <div style="font-family:'VT323',monospace;font-size:18px;color:var(--emerald)">2025 – PRESENT</div>
+    </div>
+    <div style="font-family:'VT323',monospace;font-size:22px;color:var(--diamond);margin-top:6px;">Freelance Backend Developer</div>
+    <ul style="font-family:'VT323',monospace;font-size:18px;color:#ccc;margin-top:10px;padding-left:1.2rem;">
+      <li>Architecting and developing core backend REST APIs using Java and Spring Boot.</li>
+      <li>Designing relational database schemas and optimizing SQL queries in MySQL/PostgreSQL.</li>
+      <li>Implementing JWT-based authentication and role-based authorization systems.</li>
+      <li>Integrating asynchronous webhooks and third-party API handlers.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- WINS & CERTIFICATIONS -->
+<section id="achievements">
+  <div class="section-header">
+    <div class="section-title">// ACHIEVEMENT LOG & WINS</div>
+  </div>
+  <div class="divider"></div>
+  
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
+    <div style="background:#1a0e04;border:3px solid var(--gold);padding:12px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:28px">🏆</span>
+      <div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--gold)">SMART INDIA HACKATHON</div>
+        <div style="font-family:'VT323',monospace;font-size:18px;color:#fff">Top 8 Finalist</div>
+        <div style="font-family:'VT323',monospace;font-size:14px;color:#888">Internal Round · 180+ Teams</div>
+      </div>
+    </div>
+
+    <div style="background:#1a0e04;border:3px solid var(--diamond);padding:12px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:28px">☕</span>
+      <div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--diamond)">UDEMY · EAZY BYTES</div>
+        <div style="font-family:'VT323',monospace;font-size:18px;color:#fff">Master Spring Boot & Security</div>
+        <div style="font-family:'VT323',monospace;font-size:14px;color:#888">37 Hours Complete Course</div>
+      </div>
+    </div>
+
+    <div style="background:#1a0e04;border:3px solid var(--purple);padding:12px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:28px">🌿</span>
+      <div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--purple)">EDUSKILLS & AICTE</div>
+        <div style="font-family:'VT323',monospace;font-size:18px;color:#fff">Java Full Stack Internship</div>
+        <div style="font-family:'VT323',monospace;font-size:14px;color:#888">10 Weeks Certified</div>
+      </div>
+    </div>
+
+    <div style="background:#1a0e04;border:3px solid var(--torch);padding:12px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:28px">📡</span>
+      <div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--torch)">RELIANCE ACADEMY</div>
+        <div style="font-family:'VT323',monospace;font-size:18px;color:#fff">IoT-Network Specialist</div>
+        <div style="font-family:'VT323',monospace;font-size:14px;color:#888">ID: RFSA000431946</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS HOTBAR & ENCHANTS -->
+<section id="skills">
+  <div class="section-header">
+    <div class="section-title">// INVENTORY & ENCHANTS (SKILLS)</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="hotbar">
+    <div class="hotbar-slot"><span class="slot-icon">☕</span><span class="slot-label">Java</span><span class="slot-num">1</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🌿</span><span class="slot-label">Spring</span><span class="slot-num">2</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🗄️</span><span class="slot-label">SQL</span><span class="slot-num">3</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🤖</span><span class="slot-label">RAG</span><span class="slot-num">4</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">📡</span><span class="slot-label">Sockets</span><span class="slot-num">5</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">💎</span><span class="slot-label">DSA</span><span class="slot-num">6</span></div>
+  </div>
+
+  <div class="skills-enchant">
+    <div class="enchant-title">✦ ENCHANTMENT TABLE — SKILL LEVELS ✦</div>
+    <div class="skill-list">
+      <div class="skill-row">
+        <div class="skill-name-col">Java / Core Java</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:90%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name-col">Spring Boot & Security</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name-col">MySQL / PostgreSQL</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name-col">RAG Architecture & AI</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name-col">Socket Networking</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name-col">DSA & LeetCode</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:88%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHEST PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <div class="section-title">// LOOT CHESTS (UPDATED PROJECTS)</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="chest-grid">
+    <div class="chest">
+      <div class="chest-top">
+        <span class="chest-title">SmartlyAI Platform</span>
+        <span class="chest-rarity rarity-legend">LEGENDARY</span>
+      </div>
+      <div class="chest-body">
+        <div class="chest-desc">
+          RAG Customer Support & WhatsApp Automation Platform. Architected backend REST APIs in Spring Boot, JWT auth, AI agent management, PDF knowledge base upload, and WhatsApp API integration.
+        </div>
+        <div>
+          <span class="tag tag-diamond">Java</span>
+          <span class="tag tag-gold">Spring Boot</span>
+          <span class="tag tag-diamond">MySQL</span>
+          <span class="tag tag-gold">JWT</span>
+          <span class="tag tag-diamond">RAG</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chest">
+      <div class="chest-top">
+        <span class="chest-title">AI Message Improver</span>
+        <span class="chest-rarity rarity-epic">EPIC</span>
+      </div>
+      <div class="chest-body">
+        <div class="chest-desc">
+          Lightweight text optimization app built in <strong>Pure Java</strong> using native `HttpClient` for non-blocking asynchronous REST API calls to LLMs with zero framework overhead.
+        </div>
+        <div>
+          <span class="tag tag-diamond">Pure Java</span>
+          <span class="tag tag-gold">HttpClient</span>
+          <span class="tag tag-diamond">REST API</span>
+          <span class="tag tag-gold">OpenAI API</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chest">
+      <div class="chest-top">
+        <span class="chest-title">An Intelligent Eye</span>
+        <span class="chest-rarity rarity-legend">LEGENDARY</span>
+      </div>
+      <div class="chest-body">
+        <div class="chest-desc">
+          Smart Drone & Custom Ground Control Station (GCS) software. Implemented low-level computer networking socket protocols (UDP/TCP) specifically optimized to prevent packet loss in video streams.
+        </div>
+        <div>
+          <span class="tag tag-diamond">Java</span>
+          <span class="tag tag-gold">Custom GCS</span>
+          <span class="tag tag-diamond">Networking</span>
+          <span class="tag tag-gold">UDP/TCP Sockets</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chest">
+      <div class="chest-top">
+        <span class="chest-title">Fake News Classifier</span>
+        <span class="chest-rarity rarity-rare">RARE</span>
+      </div>
+      <div class="chest-body">
+        <div class="chest-desc">
+          Machine Learning & NLP classification pipeline that analyzes news articles in real time with >90% accuracy, backed by non-blocking API endpoints.
+        </div>
+        <div>
+          <span class="tag tag-diamond">Java</span>
+          <span class="tag tag-gold">Machine Learning</span>
+          <span class="tag tag-diamond">NLP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chest">
+      <div class="chest-top">
+        <span class="chest-title">AgriAnalysis India</span>
+        <span class="chest-rarity rarity-rare">RARE</span>
+      </div>
+      <div class="chest-body">
+        <div class="chest-desc">
+          Crop intelligence dashboard tracking yield, production anomalies, and weather data across India with interactive Chart.js visualizations.
+        </div>
+        <div>
+          <span class="tag tag-diamond">JavaScript</span>
+          <span class="tag tag-gold">Chart.js</span>
+          <span class="tag tag-diamond">Analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT CRAFTING -->
+<section id="contact">
+  <div class="section-header">
+    <div class="section-title">// CRAFTING TABLE (CONTACT)</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="crafting-table">
+    <div class="craft-grid">
+      <a href="mailto:shvmnath.monk@gmail.com" class="craft-slot">
+        <span class="craft-icon">✉️</span>
+        <div>
+          <div class="craft-label">EMAIL</div>
+          <div class="craft-val">shvmnath.monk@gmail.com</div>
+        </div>
+      </a>
+
+      <a href="tel:+917042532311" class="craft-slot">
+        <span class="craft-icon">📞</span>
+        <div>
+          <div class="craft-label">PHONE</div>
+          <div class="craft-val">+91 7042532311</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/shvmmonk" target="_blank" class="craft-slot">
+        <span class="craft-icon">💻</span>
+        <div>
+          <div class="craft-label">GITHUB</div>
+          <div class="craft-val">github.com/shvmmonk</div>
+        </div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/shivam-goswami-88633124a/" target="_blank" class="craft-slot">
+        <span class="craft-icon">🔗</span>
+        <div>
+          <div class="craft-label">LINKEDIN</div>
+          <div class="craft-val">in/shivam-goswami</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-text">Made with ❤ in <span>Ghaziabad, India</span> &nbsp;|&nbsp; Shivam Nath Goswami © 2026</div>
+</footer>
+
+<script>
+  // Dynamically generate twinkling stars background
+  const container = document.getElementById('stars-container');
+  for (let i = 0; i < 70; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.width = `${Math.random() * 3 + 1}px`;
+    star.style.height = star.style.width;
+    star.style.top = `${Math.random() * 100}%`;
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.animationDelay = `${Math.random() * 2}s`;
+    container.appendChild(star);
+  }
+
+  // Particle Burst
+  function spawnParticleBurst(e) {
+    if (e.target.closest('#chatbot-modal') || e.target.closest('#chatbot-toggle-btn')) return;
+    const colors = ['#ffd700', '#4dd9e8', '#00c85a', '#cc88ff'];
+    for (let i = 0; i < 8; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = `${e.clientX}px`;
+      p.style.top = `${e.clientY}px`;
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * 50 + 15;
+      p.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+      p.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 600);
+    }
+  }
+
+  // Chatbot Assistant Widget Engine
+  function toggleChatbot() {
+    const modal = document.getElementById('chatbot-modal');
+    modal.classList.toggle('active');
+  }
+
+  function askQuick(topic) {
+    let q = "";
+    if (topic === 'skills') q = "What are Shivam's technical skills?";
+    if (topic === 'flowhipz') q = "Tell me about his work at Flowhipz.";
+    if (topic === 'projects') q = "What projects has Shivam built?";
+    if (topic === 'sih') q = "Tell me about his SIH Hackathon win!";
+    if (topic === 'contact') q = "How can I contact Shivam?";
+
+    document.getElementById('chat-input').value = q;
+    sendUserMsg();
+  }
+
+  function sendUserMsg() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+
+    const body = document.getElementById('chat-body');
+
+    // Add user message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'chat-msg msg-user';
+    userDiv.textContent = text;
+    body.appendChild(userDiv);
+
+    // Bot response logic
+    const botDiv = document.createElement('div');
+    botDiv.className = 'chat-msg msg-bot';
+    botDiv.textContent = "Thinking...";
+    body.appendChild(botDiv);
+    body.scrollTop = body.scrollHeight;
+
+    setTimeout(() => {
+      botDiv.textContent = getBotResponse(text);
+      body.scrollTop = body.scrollHeight;
+    }, 400);
+  }
+
+  function getBotResponse(msg) {
+    const q = msg.toLowerCase();
+    
+    if (q.includes('skill') || q.includes('stack') || q.includes('java') || q.includes('spring')) {
+      return "Shivam is specialized in Java (Core, OOP, Multithreading, Sockets), Spring Boot, Spring Security, REST APIs, Microservices, MySQL, PostgreSQL, RAG Architecture, and Data Structures & Algorithms (200+ LeetCode solved!).";
+    }
+    if (q.includes('flowhipz') || q.includes('exp') || q.includes('work') || q.includes('job') || q.includes('freelance')) {
+      return "Shivam works as a Freelance Backend Developer for Flowhipz (flowhipz.com), building Spring Boot REST APIs, MySQL schema designs, and JWT authentication systems.";
+    }
+    if (q.includes('project') || q.includes('smartly') || q.includes('drone') || q.includes('eye') || q.includes('msg')) {
+      return "His top projects are: 1) SmartlyAI (RAG/WhatsApp Customer Support), 2) AI Message Improver (Pure Java HttpClient & LLM API), 3) An Intelligent Eye (Smart Drone & Custom GCS with socket networking packet loss optimization), 4) Real-Time Fake News Classifier, and 5) AgriAnalysis India.";
+    }
+    if (q.includes('sih') || q.includes('hackathon') || q.includes('win') || q.includes('achievement')) {
+      return "Shivam is a Top 8 Finalist in the Smart India Hackathon (SIH) internal round out of 180+ teams, and a finalist at Technova 2026 National Hackathon!";
+    }
+    if (q.includes('contact') || q.includes('email') || q.includes('phone') || q.includes('reach') || q.includes('hire')) {
+      return "You can reach Shivam at shvmnath.monk@gmail.com, call +91 7042532311, or message him on LinkedIn (in/shivam-goswami-88633124a)!";
+    }
+    if (q.includes('education') || q.includes('college') || q.includes('cgpa') || q.includes('srm')) {
+      return "Shivam is pursuing B.Tech in CSE at SRM IST Kattankulathur (2024-2028) with an impressive CGPA of 8.9 / 10.";
+    }
+    if (q.includes('certif') || q.includes('udemy') || q.includes('course')) {
+      return "He holds certifications in: Master Spring Boot, REST, JPA & Security (37 Hours - Udemy), EduSkills Java Full Stack (10 Weeks), Reliance IoT-Network Specialist, and Google Generative AI Studio.";
+    }
+
+    return "Shivam Nath Goswami is a Level 21 Backend Developer & Java Specialist experienced in Spring Boot, RAG AI platforms, and Microservices. Ask me about his 'skills', 'projects', 'flowhipz', or 'contact'!";
+  }
+
+  // Creeper Indicator
+  const sections = document.querySelectorAll('section, .hero');
+  const creeperLabel = document.getElementById('creeper-label');
+  const navMap = {
+    'home': 'HOME',
+    'about': 'ABOUT',
+    'experience': 'QUEST',
+    'achievements': 'WINS',
+    'skills': 'SKILLS',
+    'projects': 'CHESTS',
+    'contact': 'CRAFT'
+  };
+
+  window.addEventListener('scroll', () => {
+    let current = 'home';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 150) {
+        current = sec.getAttribute('id');
+      }
+    });
+    if (navMap[current]) {
+      creeperLabel.textContent = navMap[current];
+    }
+  });
+
+  // Draggable Minecraft Chatbot Container Logic
+  (function initDraggableChatbot() {
+    const container = document.getElementById('chatbot-container');
+    const toggleBtn = document.getElementById('chatbot-toggle-btn');
+    const cloudSpeech = document.querySelector('.ai-cloud-speech');
+
+    let isDragging = false;
+    let dragMoved = false;
+    let startX = 0, startY = 0;
+    let initialLeft = 0, initialTop = 0;
+
+    function startDrag(e) {
+      if (e.type === 'mousedown' && e.button !== 0) return;
+      isDragging = true;
+      dragMoved = false;
+
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      startX = clientX;
+      startY = clientY;
+
+      const rect = container.getBoundingClientRect();
+      initialLeft = rect.left;
+      initialTop = rect.top;
+
+      container.style.right = 'auto';
+      container.style.bottom = 'auto';
+      container.style.left = `${initialLeft}px`;
+      container.style.top = `${initialTop}px`;
+
+      document.addEventListener('mousemove', moveDrag);
+      document.addEventListener('mouseup', stopDrag);
+      document.addEventListener('touchmove', moveDrag, { passive: false });
+      document.addEventListener('touchend', stopDrag);
+    }
+
+    function moveDrag(e) {
+      if (!isDragging) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const dx = clientX - startX;
+      const dy = clientY - startY;
+
+      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+        dragMoved = true;
+      }
+
+      let newLeft = initialLeft + dx;
+      let newTop = initialTop + dy;
+
+      const maxLeft = window.innerWidth - container.offsetWidth - 10;
+      const maxTop = window.innerHeight - container.offsetHeight - 10;
+
+      newLeft = Math.max(10, Math.min(newLeft, maxLeft));
+      newTop = Math.max(10, Math.min(newTop, maxTop));
+
+      container.style.left = `${newLeft}px`;
+      container.style.top = `${newTop}px`;
+
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function stopDrag() {
+      isDragging = false;
+      document.removeEventListener('mousemove', moveDrag);
+      document.removeEventListener('mouseup', stopDrag);
+      document.removeEventListener('touchmove', moveDrag);
+      document.removeEventListener('touchend', stopDrag);
+    }
+
+    toggleBtn.addEventListener('mousedown', startDrag);
+    toggleBtn.addEventListener('touchstart', startDrag, { passive: false });
+
+    if (cloudSpeech) {
+      cloudSpeech.addEventListener('mousedown', startDrag);
+      cloudSpeech.addEventListener('touchstart', startDrag, { passive: false });
+    }
+
+    toggleBtn.addEventListener('click', (e) => {
+      if (dragMoved) {
+        e.stopImmediatePropagation();
+        return;
+      }
+      toggleChatbot();
+    });
+  })();
+</script>
+
+</body>
+</html>
